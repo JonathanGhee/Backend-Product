@@ -8,21 +8,22 @@ import {updateStatistic} from '../../utils/siteStatistic.js';
 import Modal from "./Modal.jsx";
 
 export default function Overview(props) {
+  
   const currentItem = useSelector(state => state.category.currentItem);
   const cart = useSelector(state => state.shoppingCart.cart);
   const [styleIndex, setStyleIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState([]);
-
-  const getImageIndex = (url) => {
-    return imagesUrl.map((obj,i) => {
-      if (obj.url === url) {
-        return i;
-      }
-      return null;
-    }).filter(a => a!==null)[0];
-  };
+  //console.log(currentItem)
+  // const getImageIndex = (url) => {
+  //   return imagesUrl.map((obj,i) => {
+  //     if (obj.url === url) {
+  //       return i;
+  //     }
+  //     return null;
+  //   }).filter(a => a!==null)[0];
+  // };
 
   const handleSetStyleIndex = (index) => {
     setImageIndex(0);
@@ -71,7 +72,6 @@ export default function Overview(props) {
       setImagesUrl(currentItem.style[styleIndex].photos);
     }
   }, [styleIndex]);
-
 
   return (
     <div id="container" className="container pt-4 h-full mt-10 "  >

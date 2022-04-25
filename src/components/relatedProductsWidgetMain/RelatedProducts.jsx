@@ -36,6 +36,7 @@ const [currentCard, setCard] = useState(0)
 
 <div className='relatedProductsContent'>
         {props.arr.map((value, index) => {
+       
           return <Card addCard={props.addCard} prop2={props.compare} prop1={value} key={index}/>
         })}
       </div>

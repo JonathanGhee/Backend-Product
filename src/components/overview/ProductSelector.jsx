@@ -12,7 +12,7 @@ export default function ProductSelector(props) {
   const [sku, setSku] = useState(undefined);
   // console.log(product);
   // console.log(styleIndex)
-  // console.log(product.style[styleIndex])
+   //console.log(product.style[styleIndex])
 
   const skus = product.style[styleIndex > product.style.length ? 0 : styleIndex].skus;
   const dispatch = useDispatch();

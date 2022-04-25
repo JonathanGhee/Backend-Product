@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import {removeFromFavorite} from "../../store/reducer/categoryReducer.js"
-import asset from './assets/asset.jpg';
+
 import { RatingStar } from 'rating-star';
 
 

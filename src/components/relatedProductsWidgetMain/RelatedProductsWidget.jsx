@@ -13,76 +13,87 @@ const dispatch = useDispatch()
 
   const outfitArray = useSelector(state => state.category.myFavorite);
   const myItem = useSelector(state => state.category.currentItem);
-  const headers = {
-    'Authorization': process.env.REACT_APP_API_TOKEN
-  }
+
   const [relatedProductA, setRPA] = useState([]);
   const [compareThis, setCompare] = useState({});
   const [compareFeat, setFeat]    = useState({})
   const [compareThisHelper, setCompareHelper] = useState({});
   const [showModal, setShow] = useState(false);
   const [OutfitStuff, setOutfit] = useState([]);
-  useEffect( () => {
-    if(myItem.id) {
+   useEffect( () => {
+     if(myItem.id) {
+  //     var resultt = []
+  //     axios.all(myItem.related.map((endpoint) => axios.get(`http://localhost:5000/products/${endpoint}/styles`)))
+  //     .then((data) => {  
+  //         for(var i = 0; i < data.length; i++) {
+  //           resultt.push(data[i].data)
+  //         }
+  //       }).catch(err=>console.log(err))
+  //     axios.all(myItem.related.map((endpoint) => axios.get(`http://localhost:5000/products/${endpoint}`)))
+  //     .then((data) => { 
+  //         var result = []
+  //         for(var i = 0; i < data.length; i++) {  
+  //           result.push(data[i].data)
+  //           resultt[i].category = data[i].data.category
+  //         }
+  //         return setCompareHelper(result);
+  //       }).then(()=> {
+  //         setRPA(resultt)
+  //       }).catch(err => console.log(err))
+  //     }}, [myItem])
     const getData = async () => {
       try{
           var resultt = []
-          const response = await axios.all(myItem.related.map((endpoint) => axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfe/products/${endpoint}/styles`,{headers}))).then(
-          (data) => {
-            for(var i = 0; i < data.length; i++) {
-              resultt.push(data[i].data)
-            }
-          }
-            )
-
-              const responseee = axios.all(myItem.related.map((endpoint) => axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfe/products/${endpoint}`,{headers}))).then(
-          (data) => {
-            var result = []
-            for(var i = 0; i < data.length; i++) {
-              result.push(data[i].data)
-              resultt[i].category = data[i].data.category
-            }
-            return setCompareHelper(result);
-          }
-            )
-
-            const responsee =  await axios.all(myItem.related.map((endpoint) => axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfe/reviews/?product_id=${endpoint}&sort="relevant"&count=1000`,{headers}))).then(
-                (data) => {
-
-                  var result = []
-
-            for(var i = 0; i < data.length; i++) {
-
-              var average = 0;
-              for (var x = 0; x < data[i].data.results.length; x++) {
-
-                average = average + data[i].data.results[x].rating
+          const response = await axios.all(myItem.related.map((endpoint) => axios.get(`http://localhost:5000/products/${endpoint}/styles`))).then(
+            (data) => {
+              for(var i = 0; i < data.length; i++) {
+                resultt.push(data[i].data)
               }
-              average = average/data[i].data.results.length
-              result.push(average);
-            }
-            for (var z = 0; z < resultt.length; z ++) {
-              resultt[z]['rating'] = result[z]
-            }
-
             })
+
+          const responseee = axios.all(myItem.related.map((endpoint) => axios.get(`http://localhost:5000/products/${endpoint}`))).then(
+            (data) => {
+              var result = []
+              for(var i = 0; i < data.length; i++) {
+                result.push(data[i].data)
+                resultt[i].category = data[i].data.category
+              }
+              return setCompareHelper(result);
+            });
+
+            // const responsee =  await axios.all(myItem.related.map((endpoint) => axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfe/reviews/?product_id=${endpoint}&sort="relevant"&count=1000`,{headers}))).then(
+            //     (data) => {
+
+            //       var result = []
+
+            // for(var i = 0; i < data.length; i++) {
+
+            //   var average = 0;
+            //   for (var x = 0; x < data[i].data.results.length; x++) {
+
+            //     average = average + data[i].data.results[x].rating
+            //   }
+            //   average = average/data[i].data.results.length
+            //   result.push(average);
+            // }
+            // for (var z = 0; z < resultt.length; z ++) {
+            //   resultt[z]['rating'] = result[z]
+            // }
+
+            // })
             await setRPA(resultt)
 
 
 
         }
       catch(err) {
-        console.log('error in RP API call', err);
+        console.log(err);
       }
     }
     getData();
-    }
+  }
   //eslint-disable-next-line react-hooks/exhaustive-deps
 }, [myItem])
-
-useEffect ( () => {
-
-})
 
 const comparisonChart = (event) => {
 for (var i = 0; i < relatedProductA.length; i++) {
@@ -132,7 +143,6 @@ const closeModal = () => {
       }
     }
   }
-
 
 
   return (
